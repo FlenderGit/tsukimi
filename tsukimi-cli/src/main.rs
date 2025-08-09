@@ -1,12 +1,16 @@
 use clap::{Parser, Subcommand};
+use log::error;
 
-// pub mod commands;
+use crate::services::credentials::{read_token, store_token};
+
+pub mod commands;
+pub mod error;
 // pub mod config;
 pub mod api;
-pub mod auth;
+pub mod services;
 
 #[derive(Parser)]
-#[command(author, version, about, long_about = None)]
+#[command(author = "flender <tristan.deloeil@gmail.com>", version, about, long_about = None)]
 struct Cli {
     #[command(subcommand)]
     command: Commands,
@@ -51,10 +55,18 @@ enum Commands {
     Outdated,
 }
 
-fn main() {
+#[tokio::main]
+async fn main() {
+    env_logger::init();
     let cli = Cli::parse();
 
-    match cli.command {
+    let response = match cli.command {
+        Commands::Login => commands::login::execute().await,
+        Commands::Whoami => commands::whoami::execute().await,
         _ => todo!("Commands..."),
+    };
+
+    if let Err(e) = response {
+        error!("Error: {}", e);
     }
 }
