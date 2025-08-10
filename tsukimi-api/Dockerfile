@@ -5,6 +5,7 @@ RUN apt-get update && \
     libssl-dev
 RUN cargo install watchexec-cli
 WORKDIR /app
+# RUN cargo build
 CMD ["watchexec", \
     "--restart", \
     "--debounce", "500ms", \

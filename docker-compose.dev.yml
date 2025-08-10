@@ -1,5 +1,5 @@
 services:
-  db-postgres:
+  postgres:
     image: postgres:15
     environment:
       POSTGRES_USER: tsukimi
@@ -9,25 +9,33 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: unless-stopped
   web:
     build:
-      context: ./tsukimi-web
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./tsukimi-web/Dockerfile
     env_file:
       - .env
     ports:
       - "5173:5173"
     depends_on:
-      - db-postgres
+      - postgres
       - api
+  adminer:
+    image: adminer:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
   api:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./tsukimi-api/Dockerfile
     volumes:
-      - ./src:/app/src
-      - ./Cargo.toml:/app/Cargo.toml
+      - ./tsukimi-api/src:/app/src
+      - ./tsukimi-api/Cargo.toml:/app/Cargo.toml
+      - ./tsukimi-core:/tsukimi-core
       - target-cache:/app/target
       - cargo-cache:/usr/local/cargo/registry
     ports:
@@ -37,7 +45,7 @@ services:
     stdin_open: true
     tty: true
     depends_on:
-      - db-postgres
+      - postgres
 
 volumes:
   pgdata:
