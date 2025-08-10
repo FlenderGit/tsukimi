@@ -1,6 +1,8 @@
-= Tsukimi
+# Tsukimi
 
-== Presentation
+![logo](ressources/logo.png )
+
+## Presentation
 Tsukimi is a service to help translate VN into multiple languages. This application is CLI-based andd allow users to create and manage translation projects, upload and download translation files, and collaborate with other translators.
 
 This project is composed of:
@@ -9,8 +11,8 @@ This project is composed of:
 * `tsukimi-web`: a web application to manage translation projects and collaborate with other translators
 * `tsukimi-engines`: a collection of engines (as `.wasm`) to manage and create translation projects
 
-== How to contribute
-=== Requirements
+## How to contribute
+### Requirements
 * Rust 1.80.0 or later
 
-=== Create a new engine
+### Create a new engine
