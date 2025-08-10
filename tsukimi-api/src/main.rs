@@ -1,5 +1,7 @@
+use axum::http::Method;
 use std::net::{Ipv4Addr, SocketAddr};
 use tokio::net::TcpListener;
+use tower_http::cors::{Any, CorsLayer};
 use tracing::{error, info};
 
 pub mod config;
@@ -44,7 +46,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         e
     })?;
 
-    let router = routes::get_router().with_state(app_state);
+    let cors = CorsLayer::new()
+        .allow_origin(Any)
+        .allow_methods([Method::GET, Method::POST]);
+
+    let router = routes::get_router().with_state(app_state).layer(cors);
 
     info!("Starting Tsukimi CDN on port: {}", config.port());
 

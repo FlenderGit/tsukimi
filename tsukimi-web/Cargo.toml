@@ -6,6 +6,7 @@ edition = "2024"
 [dependencies]
 console_error_panic_hook = "0.1.7"
 leptos = { version = "0.8.6", features = ["csr"] }
-reqwest = "0.12.22"
+leptos_router = "0.8.5"
+reqwest = { version = "0.12.22", features = ["json"] }
 tsukimi-core = { path = "../tsukimi-core" }
 uuid = "1.17.0"

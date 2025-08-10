@@ -5,6 +5,7 @@ RUN apt-get update && \
     pkg-config \
     libssl-dev
 RUN cargo install trunk
+RUN rustup target add wasm32-unknown-unknown
 WORKDIR /app
 
 CMD ["trunk", "serve", \
