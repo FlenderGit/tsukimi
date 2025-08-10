@@ -91,18 +91,20 @@ pub fn App() -> impl IntoView {
 
     view! {
         <Router>
-            <nav class="bg-gray-800 p-4">
-                <ul class="flex space -x-4 text-white">
-                    <li><a href="/" class="hover:underline">"Home"</a></li>
-                    <li><a href="/about" class="hover:underline">"About"</a></li>
-                    <li><a href="/contact" class="hover:underline">"Contact"</a></li>
-                </ul>
-            </nav>
-            <main>
-                <Routes fallback=move || view! { <p>"No route found"</p> }>
-                    <Route path=path!("/") view=move || view! { <p>"Welcome to Tsukimi"</p> } />
-                </Routes>
-            </main>
+            <div class="flex min-h-screen">
+                <nav class="p-4 w-64 bg-background-alt border-r border-border">
+                    <ul class="text-white">
+                        <li><a href="/" class="hover:underline">"Home"</a></li>
+                        <li><a href="/about" class="hover:underline">"About"</a></li>
+                        <li><a href="/contact" class="hover:underline">"Contact"</a></li>
+                    </ul>
+                </nav>
+                <main class="flex-1 p-4">
+                    <Routes fallback=move || view! { <p>"No route found"</p> }>
+                        <Route path=path!("/") view=move || view! { <p>"Welcome to Tsukimi"</p> } />
+                    </Routes>
+                </main>
+            </div>
         </Router>
 
         // <button

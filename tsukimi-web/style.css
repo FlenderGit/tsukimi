@@ -2,12 +2,14 @@
 
 @theme {
     --color-primary: #4a90e2;
-    --color-background: #f8f9fa;
+    --color-background: #fcfcfc;
+    --color-background-alt: #f8f9fa;
+    --color-border: #d0d0d0;
 }
 
 @layer base {
     body {
         font-family: "Ubuntu", sans-serif;
-        background-color: var(--color-background);
+        @apply min-h-screen bg-background;
     }
 }

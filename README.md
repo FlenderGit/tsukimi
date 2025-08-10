@@ -1,6 +1,6 @@
 # Tsukimi
 
-![logo](ressources/logo.png )
+![logo](resources/logo.png )
 
 ## Presentation
 Tsukimi is a service to help translate VN into multiple languages. This application is CLI-based andd allow users to create and manage translation projects, upload and download translation files, and collaborate with other translators.
