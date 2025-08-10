@@ -1,0 +1,3 @@
+[workspace]
+resolver = "3"
+members = ["tsukimi-api", "tsukimi-cli", "tsukimi-core", "tsukimi-web"]
