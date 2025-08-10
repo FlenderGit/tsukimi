@@ -93,6 +93,11 @@ pub fn App() -> impl IntoView {
         <Router>
             <div class="flex min-h-screen">
                 <nav class="p-4 w-64 bg-background-alt border-r border-border">
+                    <img
+                        src="/static/logo.png"
+                        class="size-10 rounded-lg"
+                        />
+                    <p>Tsukimi</p>
                     <ul class="text-white">
                         <li><a href="/" class="hover:underline">"Home"</a></li>
                         <li><a href="/about" class="hover:underline">"About"</a></li>
