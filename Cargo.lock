@@ -3551,6 +3551,8 @@ dependencies = [
  "leptos",
  "leptos_router",
  "reqwest",
+ "serde",
+ "serde_urlencoded",
  "tsukimi-core",
  "uuid",
 ]

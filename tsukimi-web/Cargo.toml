@@ -8,5 +8,7 @@ console_error_panic_hook = "0.1.7"
 leptos = { version = "0.8.6", features = ["csr"] }
 leptos_router = "0.8.5"
 reqwest = { version = "0.12.22", features = ["json"] }
+serde = "1.0.219"
+serde_urlencoded = "0.7.1"
 tsukimi-core = { path = "../tsukimi-core" }
 uuid = "1.17.0"

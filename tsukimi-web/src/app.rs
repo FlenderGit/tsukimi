@@ -1,151 +1,81 @@
-use leptos::{prelude::*, svg::path};
+use leptos::*;
+use leptos::prelude::*;
 use leptos_router::components::*;
 use leptos_router::path;
 use tsukimi_core::models::Engine;
-use uuid::Uuid;
 
 #[component]
 pub fn App() -> impl IntoView {
-    let (count, set_count) = signal(0);
 
-    let (query, set_query) = signal(String::new());
+    struct Route {
+        name: &'static str,
+        href: &'static str,
+        icon: &'static str,
+        sub_routes: Option<Vec<Route>>,
+    }
 
-    let list = vec![
-        tsukimi_core::models::Engine {
-            id: Uuid::from_bytes([0; 16]),
-            name: "Engine One".to_string(),
-            current_version: "1.0.1".to_string(),
-            description: "First engine in the list.".to_string(),
-        },
-        tsukimi_core::models::Engine {
-            id: Uuid::from_bytes([0; 16]),
-            name: "Engine Two".to_string(),
-            current_version: "1.0.2".to_string(),
-            description: "Second engine in the list.".to_string(),
-        },
+    // When logged, subroute will be displayed
+    let routes = vec![
+        Route { name: "Home", href: "/", icon: "home_4_line", sub_routes: None },
+        Route { name: "Visual novel", href: "/visual-novel", icon: "book_2_line", sub_routes: None },
+        Route { name: "Engines", href: "/engine", icon: "engine_line", sub_routes: None },
     ];
 
-    async fn fetch_data(query: String) -> Result<Vec<Engine>, String> {
-        let response = reqwest::get("http://localhost:3000/engine?query=".to_owned() + &query)
-            .await
-            .map_err(|e| {
-                // leptos::error!("Failed to fetch data: {}", e);
-                e.to_string()
-            })?;
 
-        let text = response.json().await.map_err(|e| {
-            // leptos::error!("Failed to parse response: {}", e);
-            e.to_string()
-        })?;
-
-        Ok(text)
-    }
-
-    let async_data = LocalResource::new(move || fetch_data(query.get()));
-
-    fn inner_table(data: LocalResource<Result<Vec<Engine>, String>>) -> impl IntoView {
-        // On construit d'abord `rows` avec le même type dans chaque branche
-        move || match data.get() {
-            Some(Ok(list)) => {
-                if list.is_empty() {
-                    return view! {
-                        <tr>
-                            <td colspan=3 class="text-gray-500">{"No engines found."}</td>
-                        </tr>
-                    }
-                    .into_any();
-                }
-
-                view! {
-                    {list.into_iter()
-                        .map(|engine| {
-                            view! {
-                                <tr class="border-b">
-                                    <td>{engine.name}</td>
-                                    <td>{engine.description}</td>
-                                    <td>{engine.current_version}</td>
-                                </tr>
-                            }
-                        })
-                        .collect_view()
-                    }
-                }
-                .into_any()
+    let view_routes = move || {
+        routes.iter().map(|route| {
+            let href = route.href.to_string();
+            let name = route.name.to_string();
+            let icon_class = format!("mgc_{} text-lg", route.icon);
+            view! {
+                <li>
+                    <A href=href attr:class="flex items-center gap-2 p-2 rounded selectable">
+                        <span class=icon_class></span>
+                        {name}
+                    </A>
+                </li>
             }
-            Some(Err(e)) => view! {
-                <tr>
-                    <td colspan=3 class="text-red-500">
-                        {"Error fetching data: "}{e}
-                    </td>
-                </tr>
-            }
-            .into_any(),
-            None => view! {
-                <tr>
-                    <td colspan=3>Loading...</td>
-                </tr>
-            }
-            .into_any(),
-        }
-    }
+        }).collect_view()
+    };
 
     view! {
         <Router>
             <div class="flex min-h-screen">
-                <nav class="p-4 w-64 bg-background-alt border-r border-border">
+                <nav class="p-2 w-64 bg-background-alt border-r border-border flex flex-col">
+                <div class="flex items-center gap-2 p-2">
                     <img
                         src="/static/logo.png"
                         class="size-10 rounded-lg"
                         />
                     <p>Tsukimi</p>
-                    <ul class="text-white">
-                        <li><a href="/" class="hover:underline">"Home"</a></li>
-                        <li><a href="/about" class="hover:underline">"About"</a></li>
-                        <li><a href="/contact" class="hover:underline">"Contact"</a></li>
+                </div>
+                    <ul class="flex flex-col gap-2 text-sm flex-1">
+                        {view_routes}
                     </ul>
+                    <div class="selectable flex items-center gap-2 p-2 rounded">
+                        <img
+                            src="/static/logo.png"
+                            class="size-10 rounded-lg"
+                            alt="Tsukimi Logo"
+                        />
+                        <div>
+                            <p>"Flender"</p>
+                            <p class="text-xs text-gray-500">"flender@tsukimi"</p>
+                        </div>
+                    </div>
                 </nav>
-                <main class="flex-1 p-4">
+                <main class="flex-1 p-4 mx-auto max-w-5xl">
                     <Routes fallback=move || view! { <p>"No route found"</p> }>
                         <Route path=path!("/") view=move || view! { <p>"Welcome to Tsukimi"</p> } />
+                        // <ParentRoute path=path!("/engines") view=crate::components::engine::EngineList>
+                            <Route path=path!("/engine/:id") view=crate::components::engine::EngineView />
+                            <Route path=path!("/engine") view=crate::components::engine::EngineList />
+                        // </ParentRoute>
+                        <Route path=path!("/visual-novel/:id") view=crate::components::engine::EngineView />
+                        <Route path=path!("/visual-novel") view=crate::components::visual_novel::VisualNovelList />
                     </Routes>
                 </main>
             </div>
         </Router>
-
-        // <button
-        //     class="bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        //     on:click=move |_| set_count.set(count.get() + 1)
-        // >
-        //     "Click me: "
-        //     {count}
-        // </button>
-        // <p>
-        //     "Double count: "
-        //     {move || count.get() * 2}
-        // </p>
-
-        // <input
-        //     type="text"
-        //     class="border rounded px-2 py-1"
-        //     placeholder="Search..."
-        //     value=query
-        //     on:input:target=move |e| set_query.set(e.target().value())
-        // />
-
-        // <table class="container mx-auto">
-        //     <thead>
-        //         <tr>
-        //             <th>"Name"</th>
-        //             <th>"Description"</th>
-        //             <th>"Version"</th>
-        //         </tr>
-        //     </thead>
-        //     <tbody>
-        //         <Suspense fallback=move || view! { <p>"Loading..."</p> }>
-        //             {inner_table(async_data)}
-        //         </Suspense>
-        //     </tbody>
-        // </table>
-
     }
 }
