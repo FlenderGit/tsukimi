@@ -5,7 +5,7 @@ use tabled::{Table, settings::Style};
 
 use crate::{
     api::ApiError,
-    commands::init::InitCommandParams,
+    commands::{init::InitCommandParams, list::ListCommandParams},
     services::{api::ApiService, credentials::delete_token},
 };
 
@@ -37,7 +37,7 @@ enum Commands {
 
     // API engines
     /// List installed engines.
-    List,
+    List(ListCommandParams),
     /// Search for an engine.
     Search {
         query: Option<String>,
@@ -67,12 +67,9 @@ async fn main() {
     let response = match cli.command {
         Commands::Login => commands::login::execute().await,
         Commands::Whoami => commands::whoami::execute().await,
-        Commands::Logout => {
-            delete_token();
-            todo!()
-        }
+        Commands::Logout => commands::logout::execute().await,
         Commands::Init(params) => commands::init::execute(params).await,
-        Commands::List => commands::list::execute().await,
+        Commands::List(params) => commands::list::execute(params).await,
         _ => todo!("Commands..."),
     };
 

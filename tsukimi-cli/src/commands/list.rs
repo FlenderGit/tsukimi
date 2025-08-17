@@ -2,6 +2,11 @@ use tabled::{Table, Tabled, settings::Style};
 
 use crate::{error::CliResult, services::api::ApiService};
 
+#[derive(clap::Args)]
+pub struct ListCommandParams {
+    query: Option<String>,
+}
+
 #[derive(Tabled)]
 struct ListItem {
     name: String,
@@ -19,8 +24,8 @@ impl From<tsukimi_core::models::Engine> for ListItem {
     }
 }
 
-pub async fn execute() -> CliResult {
-    let list = ApiService::default().fetch_engines(None).await?;
+pub async fn execute(params: ListCommandParams) -> CliResult {
+    let list = ApiService::default().fetch_engines(params.query).await?;
 
     match list.is_empty() {
         true => println!("No engines found."),
