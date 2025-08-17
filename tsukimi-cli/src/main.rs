@@ -4,7 +4,9 @@ use log::error;
 use tabled::{Table, settings::Style};
 
 use crate::{
-    api::ApiError, commands::init::InitCommandParams, services::credentials::delete_token,
+    api::ApiError,
+    commands::init::InitCommandParams,
+    services::{api::ApiService, credentials::delete_token},
 };
 
 pub mod commands;
@@ -70,54 +72,7 @@ async fn main() {
             todo!()
         }
         Commands::Init(params) => commands::init::execute(params).await,
-
-        Commands::List => {
-            let list = vec![
-                "tsukimi-cli",
-                "tsukimi-api",
-                "tsukimi-engine",
-                "tsukimi-cdn",
-            ];
-
-            let mut table = Table::new(list);
-            table.with(Style::rounded());
-            println!("{table}");
-
-            let options: Vec<&str> = vec![
-                "Banana",
-                "Apple",
-                "Strawberry",
-                "Grapes",
-                "Lemon",
-                "Tangerine",
-                "Watermelon",
-                "Orange",
-                "Pear",
-                "Avocado",
-                "Pineapple",
-            ];
-
-            let ans: Result<&str, InquireError> =
-                Select::new("What's your favorite fruit?", options).prompt();
-
-            match ans {
-                Ok(choice) => println!("{}! That's mine too!", choice),
-                Err(_) => println!("There was an error, please try again"),
-            }
-
-            let ans = Confirm::new("Do you live in Brazil?")
-                .with_default(false)
-                .with_help_message("This data is stored for good reasons")
-                .prompt();
-
-            match ans {
-                Ok(true) => println!("That's awesome!"),
-                Ok(false) => println!("That's too bad, I've heard great things about it."),
-                Err(_) => println!("Error with questionnaire, try again later"),
-            }
-
-            Ok(())
-        }
+        Commands::List => commands::list::execute().await,
         _ => todo!("Commands..."),
     };
 

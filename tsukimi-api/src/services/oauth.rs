@@ -1,9 +1,9 @@
 use crate::config::GithubConfiguration;
 use oauth2::{
-    AuthUrl, AuthorizationCode, Client, ClientId, ClientSecret, EmptyExtraTokenFields,
-    EndpointNotSet, EndpointSet, PkceCodeVerifier, RevocationErrorResponseType,
-    StandardErrorResponse, StandardRevocableToken, StandardTokenIntrospectionResponse,
-    StandardTokenResponse, TokenResponse, TokenUrl,
+    AuthorizationCode, Client, ClientId, ClientSecret, EmptyExtraTokenFields, EndpointNotSet,
+    EndpointSet, PkceCodeVerifier, RevocationErrorResponseType, StandardErrorResponse,
+    StandardRevocableToken, StandardTokenIntrospectionResponse, StandardTokenResponse,
+    TokenResponse, TokenUrl,
     basic::{BasicClient, BasicErrorResponseType, BasicTokenType},
 };
 use tracing::error;

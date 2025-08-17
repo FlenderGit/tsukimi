@@ -12,7 +12,7 @@ pub mod routes;
 pub mod services;
 
 #[derive(Clone)]
-struct AppState {
+pub struct AppState {
     pub database: services::database::DatabaseService,
     pub oauth: services::oauth::OAuthService,
 }
@@ -59,8 +59,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let router = routes::get_router()
         .with_state(app_state)
-        .layer(TraceLayer::new_for_http());
-    // .layer(cors)
+        .layer(TraceLayer::new_for_http())
+        .layer(cors);
 
     info!("Starting Tsukimi CDN on port: {}", config.port());
 

@@ -9,6 +9,6 @@ pub fn get_router() -> axum::Router<AppState> {
             "/",
             axum::routing::get(|| async { "Welcome to Tsukimi API!" }),
         )
-        .nest("/engine", engine::get_router())
+        .nest("/engines", engine::get_router())
         .nest("/oauth", oauth::get_router())
 }

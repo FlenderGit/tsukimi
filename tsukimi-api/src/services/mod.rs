@@ -1,6 +1,4 @@
-use std::ops::Deref;
-
-use crate::{config::Configuration, services::oauth::OAuthService};
+use crate::config::Configuration;
 
 pub mod database;
 pub mod oauth;
