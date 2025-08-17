@@ -1,7 +1,7 @@
 use crate::AppState;
-use serde::{Deserialize, Serialize};
 
 pub(crate) mod engine;
+pub(crate) mod oauth;
 
 pub fn get_router() -> axum::Router<AppState> {
     axum::Router::new()
@@ -10,4 +10,5 @@ pub fn get_router() -> axum::Router<AppState> {
             axum::routing::get(|| async { "Welcome to Tsukimi API!" }),
         )
         .nest("/engine", engine::get_router())
+        .nest("/oauth", oauth::get_router())
 }

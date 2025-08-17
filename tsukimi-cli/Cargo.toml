@@ -6,10 +6,16 @@ edition = "2024"
 [dependencies]
 clap = { version = "4.5.43", features = ["derive"] }
 env_logger = "0.11.8"
+inquire = "0.7.5"
 keyring = { version = "3.6.3", features = ["linux-native"] }
 log = "0.4.27"
+oauth2 = "5.0.0"
+open = "5.3.2"
 reqwest = { version = "0.12.22", features = ["json"] }
 serde = { version = "1.0.219", features = ["derive"] }
 serde_json = "1.0.142"
+tabled = "0.20.0"
 thiserror = "2.0.12"
+time = { version = "0.3.41", features = ["serde"] }
 tokio = { version = "1.47.1", features = ["full"] }
+tsukimi-core = { path = "../tsukimi-core" }

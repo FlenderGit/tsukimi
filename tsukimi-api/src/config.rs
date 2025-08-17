@@ -10,6 +10,16 @@ pub struct Configuration {
     database: DatabaseConfiguration,
     #[getset(get = "pub")]
     env: Environment,
+    #[getset(get = "pub")]
+    github: GithubConfiguration,
+}
+
+#[derive(Deserialize, Getters)]
+pub struct GithubConfiguration {
+    #[getset(get = "pub")]
+    client_id: String,
+    #[getset(get = "pub")]
+    client_secret: String,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

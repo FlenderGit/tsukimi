@@ -1,14 +1,13 @@
-use crate::{api, commands::login::get_user, services::credentials::read_token};
-use log::info;
+use crate::{error::CliResult, services::credentials::read_token};
+use log::{error, info};
 
-pub async fn execute() -> Result<(), api::ApiError> {
-    let access_token = read_token().map_err(|_| {
-        api::ApiError::AuthenticationError(
-            "No access token found. Please log in first.".to_string(),
-        )
+pub async fn execute() -> CliResult {
+    let session = read_token().map_err(|e| {
+        error!("Failed to read access token: {}", e);
+        e
     })?;
-    let user_info = get_user(access_token).await?;
+    let user_info = session.fetch_user().await?;
     info!("User info: {:?}", user_info);
-    println!("Connected as: {}", user_info.login);
+    println!("Connected as: {}", user_info.format());
     Ok(())
 }

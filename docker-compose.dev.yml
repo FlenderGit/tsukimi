@@ -11,20 +11,20 @@ services:
       - pgdata:/var/lib/postgresql/data
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: unless-stopped
-  web:
-    build:
-      context: .
-      dockerfile: ./tsukimi-web/Dockerfile
-    env_file:
-      - .env
-    volumes:
-      - ./tsukimi-web:/app
-      - ./tsukimi-core:/tsukimi-core
-    ports:
-      - "8081:8080"
-    depends_on:
-      - postgres
-      - api
+  # web:
+  #   build:
+  #     context: .
+  #     dockerfile: ./tsukimi-web/Dockerfile
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - ./tsukimi-web:/app
+  #     - ./tsukimi-core:/tsukimi-core
+  #   ports:
+  #     - "8081:8080"
+  #   depends_on:
+  #     - postgres
+  #     - api
   adminer:
     image: adminer:latest
     ports:

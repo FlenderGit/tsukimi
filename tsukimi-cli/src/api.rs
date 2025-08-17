@@ -21,3 +21,19 @@ pub enum ApiError {
     #[error("Bad request: {0}")]
     BadRequest(String),
 }
+
+impl From<reqwest::Error> for ApiError {
+    fn from(err: reqwest::Error) -> Self {
+        if let Some(status) = err.status() {
+            ApiError::RequestError(status, err.to_string())
+        } else {
+            ApiError::NetworkError(err.to_string())
+        }
+    }
+}
+
+impl From<serde_json::Error> for ApiError {
+    fn from(err: serde_json::Error) -> Self {
+        ApiError::ParseError(err.to_string())
+    }
+}
