@@ -1,0 +1,23 @@
+package tsukimi:extension;
+
+world extension {
+    import utils: interface {
+        read-file: func(path: string) -> option<string>;
+    }
+    export iadd: interface {
+            // variant content {
+            //     text(string),
+            //     title(string)
+            // }
+            // resource iterator {
+            //     next: func() -> option<string>;
+            // }
+            // add: func(x: u32, y: u32) -> u32;
+            // init: func(iterator) -> iterator;
+
+
+
+            add-to-gitignore: func() -> string;
+            // is-engine: func() -> stream<bool>;
+        }
+}

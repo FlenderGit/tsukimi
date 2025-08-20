@@ -125,7 +125,7 @@ pub async fn execute() -> CliResult {
     if let Ok(session) = read_token() {
         let user_info = session.fetch_user().await?;
         return Err(CliError::AlreadyLoggedIn(user_info));
-    }
+    get_local_extension_state
 
     // Select the authentication method (Device Code or OAuth)
     let auth_method = Select::new(
@@ -207,7 +207,7 @@ async fn oauth2_get_access_token() -> Result<AuthSession, ApiError> {
                     .map(|(_, state)| CsrfToken::new(state.into_owned()))
                     .unwrap();
 
-                let message = include_str!("../res/oauth2_connected.html");
+                let message = include_str!("../../res/oauth2_connected.html");
                 let response = format!(
                     "HTTP/1.1 200 OK\r\ncontent-length: {}\r\n\r\n{}",
                     message.len(),

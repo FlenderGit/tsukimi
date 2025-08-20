@@ -8,6 +8,8 @@ pub enum CliError {
     WebError(#[from] ApiError),
     #[error(transparent)]
     CredentialsError(#[from] crate::services::credentials::CredentialsError),
+    #[error(transparent)]
+    PluginError(#[from] crate::commands::list::PluginError),
 
     #[error("You are already logged in as {}", .0.format())]
     AlreadyLoggedIn(UserInfo),

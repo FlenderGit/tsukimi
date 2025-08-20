@@ -32,6 +32,25 @@ impl ApiService {
         reqwest::Client::new()
     }
 
+    pub async fn fetch_engine(
+        &self,
+        engine_id: &str,
+    ) -> Result<tsukimi_core::models::Engine, ApiError> {
+        let url = self.build_url(&format!("engines/{}", engine_id));
+        let client = self.get_client();
+
+        let response = client.get(&url).send().await?;
+
+        if response.status().is_success() {
+            let engine: tsukimi_core::models::Engine = response.json().await?;
+            Ok(engine)
+        } else {
+            Err(ApiError::NetworkError(
+                response.text().await.unwrap_or_default(),
+            ))
+        }
+    }
+
     pub async fn fetch_engines(
         &self,
         query: Option<String>,

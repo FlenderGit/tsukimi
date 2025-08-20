@@ -1,7 +1,7 @@
 [
   {
     "label": "CodeSnap",
-    "command": "codesnap --from-clipboard -o \"./example.png\" -l hcl --has-line-number --has-breadcrumbs=true --title $ZED_FILENAME",
+    "command": "codesnap --from-clipboard -o \"./example.png\" --has-line-number --has-breadcrumbs=true --title $ZED_FILENAME -w test --mac-window-bar true",
     "use_new_terminal": false,
     "allow_concurrent_runs": false,
     "reveal": "never",

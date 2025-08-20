@@ -5,6 +5,7 @@ edition = "2024"
 
 [dependencies]
 clap = { version = "4.5.43", features = ["derive"] }
+directories-next = "2.0.0"
 env_logger = "0.11.8"
 inquire = "0.7.5"
 keyring = { version = "3.6.3", features = ["linux-native"] }
@@ -19,3 +20,5 @@ thiserror = "2.0.12"
 time = { version = "0.3.41", features = ["serde"] }
 tokio = { version = "1.47.1", features = ["full"] }
 tsukimi-core = { path = "../tsukimi-core" }
+wasmtime = "35.0.0"
+wasmtime-wasi = "35.0.0"
