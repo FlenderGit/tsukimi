@@ -11,6 +11,17 @@ services:
       - pgdata:/var/lib/postgresql/data
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: unless-stopped
+  web:
+    build:
+      context: ./tsukimi-web
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./tsukimi-web:/app
+      - node_modules:/app/node_modules
+    environment:
+      - NODE_ENV=development
   # web:
   #   build:
   #     context: .
@@ -54,3 +65,4 @@ volumes:
   pgdata:
   cargo-cache:
   target-cache:
+  node_modules:

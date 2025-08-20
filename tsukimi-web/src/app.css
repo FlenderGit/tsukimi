@@ -1,0 +1,57 @@
+@import 'tailwindcss';
+
+@theme {
+	--color-background: #fcfcfc;
+	--color-background-alt: #f8f9fa;
+	--color-text: #333333;
+	--color-border: #d0d0d0;
+}
+
+@layer base {
+	body {
+		min-height: 100vh;
+		background-color: var(--color-background);
+		color: var(--color-text);
+		font-family: 'Ubuntu', sans-serif;
+		display: flex;
+	}
+
+	table {
+		@apply w-full border-collapse text-left;
+
+		th,
+		td {
+			@apply p-2 font-normal;
+		}
+
+		thead {
+			@apply text-sm;
+		}
+
+		tr {
+			@apply border-b border-solid border-gray-200;
+		}
+
+		tbody tr {
+			@apply hover:bg-gray-100;
+		}
+	}
+}
+
+@layer components {
+	.link {
+		@apply text-blue-600 hover:text-blue-800 hover:underline;
+	}
+
+	.input {
+		@apply w-full rounded border border-gray-300 px-2 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none;
+	}
+
+	.btn {
+		@apply inline-flex items-center justify-center rounded bg-blue-600 px-2 py-1 text-sm font-medium text-white hover:bg-blue-700;
+	}
+
+	.btn[disabled] {
+		@apply cursor-not-allowed bg-gray-400;
+	}
+}

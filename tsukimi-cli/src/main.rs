@@ -1,5 +1,4 @@
 use crate::{
-    api::ApiError,
     commands::{
         init::InitCommandParams, install::InstallCommandParams, search::SearchCommandParams,
     },
@@ -10,6 +9,7 @@ use clap::{Parser, Subcommand};
 pub mod api;
 pub mod commands;
 pub mod error;
+pub mod models;
 pub mod services;
 
 #[derive(Parser)]
