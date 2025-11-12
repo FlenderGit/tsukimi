@@ -18,6 +18,14 @@ world extension {
 
 
             add-to-gitignore: func() -> string;
+
+            variant decoder-entry {
+                next-file(string),
+                text-entry(tuple<string, u64, u64>)
+            }
+
+            decode: func() -> stream<decoder-entry>;
+
             // is-engine: func() -> stream<bool>;
         }
 }
