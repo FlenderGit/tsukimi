@@ -71,10 +71,7 @@ async fn main() {
     }
 }
 
-use wasmtime_wasi::{
-    ResourceTable,
-    p2::{IoView, WasiCtx, WasiCtxBuilder, WasiView},
-};
+use wasmtime_wasi::{IoView, ResourceTable, WasiCtx, WasiCtxBuilder, WasiView};
 struct WasmState {
     table: ResourceTable,
     ctx: WasiCtx,
